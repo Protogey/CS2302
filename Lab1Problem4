@@ -1,0 +1,51 @@
+#Cesar Lopez
+#Lab 1 Problem 4
+#CS2302 10:30 - 11:50
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+#circle method used in class to create circles.
+def circle(center,rad):
+    n = int(4*rad*math.pi)
+    t = np.linspace(0,6.3,n)
+    x = center[0]+rad*np.sin(t)
+    y = center[1]+rad*np.cos(t)
+    return x,y
+def draw_circles(ax, n, center, radius, w):
+    if n>0:
+        x,y = circle(center, radius)
+        #Used to plot the circles
+        ax.plot(x,y,color='k')
+        #This method calls the center circle that is only affected by w.
+        draw_circles(ax,n-1, center,radius*w,w)
+        #center is copied into variable a, b, c, and d for the right, left, up, and down circles.
+        a = list.copy(center)
+        b = list.copy(center)
+        c = list.copy(center)
+        d = list.copy(center)
+        #this gets us the upper circle
+        a[0] = a[0]+(radius*.66)
+        #this gets us the bottom circle
+        b[0] = b[0]-(radius*.66)
+        #Uses upper circle information to plot
+        draw_circles(ax, n-1, a, radius*w, w)
+        #uses lower circle information to plot
+        draw_circles(ax, n-1, b,radius*w,w)
+        #this gets us the right circle
+        c[1] = c[1] + (radius*2/3)
+        #this gets us the left circle
+        d[1] = d[1] - (radius*2/3)
+        #uses right circle information to plot
+        draw_circles(ax, n-1, c, radius*w, w)
+        #uses left circle information to plot
+        draw_circles(ax, n-1, d, radius*w, w)
+plt.close("all")
+fig, ax = plt.subplots()
+#4a = (ax, 3, [100, 0], 100, .33)
+#4b = (ax, 4, [100, 0], 100, .33)
+#4c = (ax, 5, [100, 0], 100, .33)
+draw_circles(ax, 5, [100, 0], 100, .33)
+ax.set_aspect(1.0)
+ax.axis('off')
+plt.show()
+fig.savefig('circles.png')
