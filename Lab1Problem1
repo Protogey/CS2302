@@ -1,0 +1,38 @@
+#Cesar Lopez
+#Lab 1 problems 1a, 1b, 1c
+#CS2302 11:50 - 1:20
+import matplotlib.pyplot as plt
+#Method we use to recurse. Takes input ax, x-axis, y-axis, number of recursion, and rate of change
+def draw_squares(ax, x, y, n, r):
+    if n>0:
+        #xl affects the left side of the square, but only the x - axis
+        xl = x-r
+        #lr affects the right side of the square, but only the x - axis
+        xr = x+r
+        #yd affects the bottom side of the square, but only the y - axis
+        yd = y-r
+        #yu affects the up side of the square, but only the y - axis
+        yu = y+r
+        #the plotting process starts with the bottom left the square, to top left, to top right, to bottom right, to back to the bottom left
+        ax.plot((xl, xl, xr, xr, xl),(yd, yu, yu, yd, yd), color='k')
+        #draws bottom left
+        draw_squares(ax, xl, yd, n-1, r/2)
+        #draws top left
+        draw_squares(ax, xl, yu, n-1, r/2)
+        #draws the top right
+        draw_squares(ax, xr, yu, n-1, r/2)
+        #draws the bottom right
+        draw_squares(ax, xr, yd, n-1, r/2)
+plt.close("all")
+fig, ax = plt.subplots()
+#here we have our start point
+x = 0
+y = 0
+#1a = (ax, x, y, 2, 4) 
+#1b = (ax, x, y, 3, 4) 
+#1c = (ax, x, y, 4, 4)
+draw_squares(ax, x, y, 4, 4)
+ax.set_aspect(1.0)
+ax.axis('off')
+plt.show()
+fig.savefig('squares.png')
