@@ -1,0 +1,3 @@
+a = draw_squares(ax,9,p,.25)
+b = draw_squares(ax, 10, p, .1)
+c = draw_squares(ax, 100, p, .1)
