@@ -1,0 +1,33 @@
+#Cesar Lopez
+#Lab 1 Problems 2a, 2b, 2c
+#CS2302 10:30-11:50
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+#create circle method, copied from the circle file on cs materials
+def circle(center,rad):
+    n = int(4*rad*math.pi)
+    t = np.linspace(0,6.3,n)
+    x = center[0]+rad*np.sin(t)
+    y = center[1]+rad*np.cos(t)
+    return x,y
+#draw circle method, similar to the one given in class
+def draw_circles(ax, center, radius, w,  n):
+    if n>0:
+        #plots the new circles based on the recursion
+        x,y = circle(center,radius)
+        ax.plot(x,y,color='k')
+        #Center is changed, but only 0, because that is how we keep our circles in the same position.
+        center[0] = center[0] * (w * w)
+        #here we have our base case, which updates our radius just like our center[0], to keep circles in the same position.
+        draw_circles(ax, center, radius*w*w, w, n-1)
+plt.close("all")
+fig, ax = plt.subplots()
+#2a = (ax, [100,0], 100, .75, 8)
+#2b = (ax, [100,0], 100, .95, 100)
+#2c = (ax, [100,0], 100, .98, 100)
+draw_circles(ax, [100,0], 100, .98, 100)
+ax.set_aspect(1.0)
+ax.axis('off')
+plt.show()
+fig.savefig('circles.png')
