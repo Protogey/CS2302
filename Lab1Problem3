@@ -1,0 +1,27 @@
+#Cesar Lopez
+#Lab 1 Problem 3
+import matplotlib.pyplot as plt
+#Here we have our drawing method.
+def binaryTree(ax, x, y, r, n):
+    if n > 0:
+        #with this line of code, we plot our left side of the tree
+        ax.plot((x, x-r),(y,y-5),color='k')
+        #with this line of code, we plot our right side of the tree
+        ax.plot((x, x+r),(y,y-5),color='k')
+        #this is our first recursive case, which recurses to the right side of the binary tree
+        binaryTree(ax, x+r, y-5, r/2, n-1)
+        #this is our second recursive case, which recurses to the left side of the binary tree
+        binaryTree(ax, x-r, y-5, r/2, n-1)
+plt.close("all")
+#x and y are our initial point on the binary tree.
+x = 10
+y = x*3
+#r is our rate of change in going down the tree
+r = x/2
+fig, ax = plt.subplots()
+#3a = (ax, x, y, r, 3)
+#3b = (ax, x, y, r, 4)
+#3c = (ax, x, y, r, 6)
+binaryTree(ax, x, y, r, 6)
+plt.axis('off')
+plt.show()
