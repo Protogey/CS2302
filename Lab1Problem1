@@ -1,6 +1,6 @@
 #Cesar Lopez
 #Lab 1 problems 1a, 1b, 1c
-#CS2302 11:50 - 1:20
+#CS2302 10:30 - 11:50
 import matplotlib.pyplot as plt
 #Method we use to recurse. Takes input ax, x-axis, y-axis, number of recursion, and rate of change
 def draw_squares(ax, x, y, n, r):
