@@ -19,7 +19,7 @@ def draw_circles(ax, center, radius, w,  n):
         ax.plot(x,y,color='k')
         #Center is changed, but only 0, because that is how we keep our circles in the same position.
         center[0] = center[0] * (w * w)
-        #here we have our base case, which updates our radius just like our center[0], to keep circles in the same position.
+        #here we have our recursive case, which updates our radius just like our center[0], to keep circles in the same position.
         draw_circles(ax, center, radius*w*w, w, n-1)
 plt.close("all")
 fig, ax = plt.subplots()
