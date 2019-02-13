@@ -23,17 +23,17 @@ def draw_circles(ax, n, center, radius, w):
         b = list.copy(center)
         c = list.copy(center)
         d = list.copy(center)
-        #this gets us the upper circle
+        #this gets us the right circle
         a[0] = a[0]+(radius*.66)
-        #this gets us the bottom circle
+        #this gets us the left circle
         b[0] = b[0]-(radius*.66)
         #Uses upper circle information to plot
         draw_circles(ax, n-1, a, radius*w, w)
         #uses lower circle information to plot
         draw_circles(ax, n-1, b,radius*w,w)
-        #this gets us the right circle
+        #this gets us the upper circle
         c[1] = c[1] + (radius*2/3)
-        #this gets us the left circle
+        #this gets us the bottom circle
         d[1] = d[1] - (radius*2/3)
         #uses right circle information to plot
         draw_circles(ax, n-1, c, radius*w, w)
