@@ -1,5 +1,5 @@
 # Code to implement a binary search tree 
-# Programmed by Olac Fuentes
+# Programmed by Cesar Lopez
 # Last modified February 27, 2019
 import matplotlib.pyplot as plt
 
@@ -101,13 +101,15 @@ def FindAndPrint(T,k):
         print(k,'not found')
         
 def Drawing(ax, x, y, T, r):
+    #makes sure to iterate only when our node is not none
     if T is not None:
-        c= plt.Circle([x,y], .5, color='k', fill=False)#uses matplotlib circle function to draw a circle for each node
+        c= plt.Circle([x,y], .5, color='k', fill=False)#Creates a circle which we use for out tree
         ax.add_artist(c)#adds the circle into the figure
-        ax.text(x-.2, y+.2, T.item, size=10) #prints the valute of the current node
+        ax.text(x-.2, y+.2, T.item, size=10) #we use this to place our text into the image
         if T.left is not None:
             #with this line of code, we plot our left side of the tree
             ax.plot((x, x-r),(y,y-2),color='k')
+            #checks our right side, to plot it.
             if T.right is not None:
                 #with this line of code, we plot our right side of the tree
                 ax.plot((x, x+r),(y,y-2),color='k')
@@ -115,37 +117,47 @@ def Drawing(ax, x, y, T, r):
                 Drawing(ax, x+r, y-2, T.right, r/2)
                 #this is our second recursive case, which recurses to the left side of the binary tree
                 Drawing(ax, x-r, y-2, T.left, r/2)
-            Drawing(ax, x-r, y-2, T.left, r/2)
-        if T.right is not None:
+            #draws our left side
+        #if right side is none, we use this to plot left side
+        if T.left is not None:
             #with this line of code, we plot our left side of the tree
             Drawing(ax, x-r, y-2, T.left, r/2)
         
 def Balance(a, z):
+    #only allows us to work on the list if the list is greater than 0
     if(len(a) > 0):
+        #creates mid to help us get our pivot which is the middle value of the list
         mid = (len(a)//2)
+        #checks len if it is 1 because then we will only have 1 value in the list
         if len(a) == 1:
             z = BST(a[mid])
             return z
+        #checks if len is 2 because we will have 2 values, we append the last value first, and then the 1st value to left because it is less than the first in the list.
         if len(a) == 2:
             z = BST(a[mid])
             z.left = BST(a[0])
             return z
+        #we append our middle value to our balance tree, and next we iterate recursively to the left and the right with z.left, z.right
+        #we also use list splicing to split our list, we make sure to avoid using the middle value again to make sure we do not add it twice to the node
         z = BST(a[mid])
         z.left = Balance(a[0:mid], z.left)
         z.right = Balance(a[mid+1:], z.right)
         return z
     
 def LFT(T, a):
+    #checks if our node is none, if it is, we return our list
     if T is None:
         return a
+    #this allows us to operate on the list as long as it is not none.
+    #we recursively go to the left side first and append our left most item first because it is the smalles and we build up from there
+    #next we append our item value that we have to get our middle
+    #and last we iterate to the right to get the values that our to the right
     if T is not None:
         LFT(T.left, a)
         a.append(T.item)
         LFT(T.right, a)
         return a
-    if T.left is None:
-        a.append(T.item)
-        return a
+
             
 def KeysAtDepths(T, i):
     if T is not None:
