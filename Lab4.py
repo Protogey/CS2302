@@ -235,7 +235,7 @@ def Kdepth(T, k):
         #if we find a leaf, that means we didnt find k and we return -1
     if T.isLeaf:
         return -1
-    #we use this to iterate to the left if k is on the left side, checks if we found -1 to return it, or if not.
+    #we use this to iterate to the right if k is on the right side, checks if we found -1 to return it, or if not.
     if k >T.item[-1]:
         depth = Kdepth(T.child[-1],k)
         if depth == -1:
