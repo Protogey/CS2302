@@ -15,7 +15,7 @@ class BTree(object):
         self.max_items = max_items
 
 def FindChild(T,k):
-    # Determines value of c, such that k must be in subtree T.child[c], if k is in the BTree    
+    # Determines value of c, such that k must be in subtree T.child[c], if k is in the BTree     
     for i in range(len(T.item)):
         if k < T.item[i]:
             return i
