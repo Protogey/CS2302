@@ -6,7 +6,7 @@ class HashTableC(object):
     # Builds a hash table of size 'size'
     # Item is a list of (initially empty) lists
     # Constructor
-    def __init__(self,size,num_items=13):  
+    def __init__(self,size,num_items = 0):  
         self.item = []
         for i in range(size):
             self.item.append([])
@@ -17,7 +17,12 @@ class HashTableC(object):
 def InsertC(H,k,l):
     # Inserts k in appropriate bucket (list) 
     # Does nothing if k is already in the table
+    H.num_items += 1
     b = h(k,len(H.item))
+    if H.num_items/len(H.item) == 1:
+        for i in range(len(H.item)+1):
+            H.item.append([])
+        b = h(k,len(H.item))
     H.item[b].append([k,l]) 
    
 def FindC(H,k):
@@ -34,6 +39,12 @@ def h(s,n):
     for c in s:
         r = (r*n + ord(c))% n
     return r
+
+def sim(H, w1, w2):
+    e1 = FindC(H, w1)
+    e2 = FindC(H, w2)
+    h = e1* e2
+    return h
 
 import numpy as np
 '''
@@ -55,4 +66,11 @@ for line in f:
     word = a[0]
     e = a[1:-1]
     InsertC(H, word, e)
-print(FindC(H, word))
+print(len(H.item))
+print(FindC(H, "the"))
+file = open('input.txt', encoding='utf-8')
+for lin in file:
+    b = line.split(' ')
+    word1 = b[0]
+    word2 = b[1]
+    print(sim(H, word1, word2))
