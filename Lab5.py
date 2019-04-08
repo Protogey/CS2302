@@ -4,6 +4,8 @@
 #Professor - Olac Fuentes
 #TA - Anadita
 #Class - 10:30 - 12:00
+#We read information from a text file and did comparisons using cosine to find the similarity. We stored the information using 
+#hash tables or binary search trees to determine speeds.
 
 class HashTableC(object):
     # Builds a hash table of size 'size'
