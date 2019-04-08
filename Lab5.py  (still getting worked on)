@@ -16,14 +16,11 @@ def InsertC(H,k,l):
     # Inserts k in appropriate bucket (list) 
     # Does nothing if k is already in the table
     H.num_items += 1
+    b = h(k,len(H.item))
     if H.num_items/len(H.item) >= 1:
         for i in range(len(H.item)+1):
             H.item.append([])
-        b = h(k,len(H.item))
-        H.item[b].append([k,l]) 
-    else:
-        b = h(k,len(H.item))
-        H.item[b].append([k,l]) 
+    H.item[b].append([k,l]) 
    
 def FindC(H,k):
     # Returns bucket (b) and index (i) 
@@ -31,8 +28,8 @@ def FindC(H,k):
     b = h(k,len(H.item))
     for i in range(len(H.item[b])):
         if H.item[b][i][0] == k:
-            return b, i, H.item[b][i][1]
-    return b, -1, -1
+            return H.item[b][i][1]
+    return -1
  
 def h(s,n):
     r = 0
@@ -46,53 +43,158 @@ def dotProduct(w1, w2):
         hold += float(w1[i])*float(w2[i])
     return hold
 
+def magni(w):
+    hold = 0
+    for i in range(len(w)):
+        hold += float(w[i]) ** 2
+    return math.sqrt(hold)
+
 def sim(H, w1, w2):
-    print(H[0][0][0])
     e1 = FindC(H, w1)
     e2 = FindC(H, w2)
-    print(e1)
     dp = dotProduct(e1, e2)
-    return dp
+    m1 = magni(e1)
+    m2 = magni(e2)
+    return dp/(m1*m2)
 
 def IsEmpty(H):
     count = 0
     for i in range(len(H.item)):
-        if len(H.item[i]) == 0:
+        if len(H.item[i]) <= 0:
             count += 1
     return count
 
+# Code to implement a binary search tree 
+# Programmed by Olac Fuentes
+# Last modified February 27, 2019
+
+class BST(object):
+    # Constructor
+    def __init__(self, item, left=None, right=None):  
+        self.item = item
+        self.left = left 
+        self.right = right      
+        
+def Insert(T,newItem):
+    if T == None:
+        T =  BST(newItem)
+    elif T.item > newItem:
+        T.left = Insert(T.left,newItem)
+    else:
+        T.right = Insert(T.right,newItem)
+    return T
+
+def Delete(T,del_item):
+    if T is not None:
+        if del_item < T.item:
+            T.left = Delete(T.left,del_item)
+        elif del_item > T.item:
+            T.right = Delete(T.right,del_item)
+        else:  # del_item == T.item
+            if T.left is None and T.right is None: # T is a leaf, just remove it
+                T = None
+            elif T.left is None: # T has one child, replace it by existing child
+                T = T.right
+            elif T.right is None:
+                T = T.left    
+            else: # T has two chldren. Replace T by its successor, delete successor
+                m = Smallest(T.right)
+                T.item = m.item
+                T.right = Delete(T.right,m.item)
+    return T
+         
+def InOrder(T):
+    # Prints items in BST in ascending order
+    if T is not None:
+        InOrder(T.left)
+        print(T.item,end = ' ')
+        InOrder(T.right)
+  
+def InOrderD(T,space):
+    # Prints items and structure of BST
+    if T is not None:
+        InOrderD(T.right,space+'   ')
+        print(space,T.item)
+        InOrderD(T.left,space+'   ')
+  
+def SmallestL(T):
+    # Returns smallest item in BST. Returns None if T is None
+    if T is None:
+        return None
+    while T.left is not None:
+        T = T.left
+    return T   
+ 
+def Smallest(T):
+    # Returns smallest item in BST. Error if T is None
+    if T.left is None:
+        return T
+    else:
+        return Smallest(T.left)
+
+def Largest(T):
+    if T.right is None:
+        return T
+    else:
+        return Largest(T.right)   
+
+def Find(T,k):
+    # Returns the address of k in BST, or None if k is not in the tree
+    if T is None or T.item == k:
+        return T
+    if T.item<k:
+        return Find(T.right,k)
+    return Find(T.left,k)
+    
+def FindAndPrint(T,k):
+    f = Find(T,k)
+    if f is not None:
+        print(f.item,'found')
+    else:
+        print(k,'not found')
+
+import math
+import time
 choice = input("Type 1 for Binary Search Tree, or 2 for Hash Table with chaining")
 print(choice)
 if(choice == '1'):
     print("Your choice is: Binary Search Tree")
     print()
     print("Building Binary Search Tree..")
+    N = [[]]
+    T = None
+    f = open('glove.6B.50d.txt', encoding='utf-8')
+    for line in f:
+        a = line.split(' ')
+        N[0] = a[0]
+        a = a[1:-1]
+        for A in a:
+            N[0][A] = a[A]
+        T = Insert(T, N)
 elif(choice == '2'):
     print("Your choice is: Hash Table")
+    start = time.time()
     print()
     print("Building Hash Table...")
-    a = []
     H = HashTableC(13)
     f = open('glove.6B.50d.txt', encoding='utf-8')
     for line in f:
         a = line.split(' ')
-        word = line.split(' ')[0]
-        a = a[1:-1]
-        InsertC(H, word, a)
+        word = a[0]
+        embed = a[1:]
+        InsertC(H, word, embed)
     print("Hash Table Stats:")
     print("Initial Size: 13")
+    print("final size: ",len(H.item))
     print("Load Factor: ", H.num_items/len(H.item))
     print("Percentage of Empty list", (IsEmpty(H)/len(H.item))*100)
     print("Standard Deviation of Lengths of list: ")
-    H2 = HashTableC(len(H.item))
-    for x in range(len(H.item)):
-        for y in range(len(H.item[x])):
-            InsertC(H2, H.item[x][y][0], H.item[x][y][1])
     file = open('input.txt', encoding='utf-8')
     for lin in file:
-        b = lin.split(' ')
-        word1 = b[0]
-        word2 = b[1]
-        print(sim(H2, word1, word2))
+        b = lin.split()
+        print("Similarity [",b[0],", ", b[1],"] =",end=" ")
+        print(sim(H, b[0], b[1]))
+        print()
+    print("Time: ",time.time()-start)
 else:
     print("Wrong input, relaunch and try again.")
