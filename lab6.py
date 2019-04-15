@@ -3,6 +3,8 @@
 # simple path joiniung any two cells
 # Programmed by Olac Fuentes
 # Last modified March 28, 2019
+#Cesar Lopez
+#10:30 - 12:00
 
 import matplotlib.pyplot as plt
 import numpy as np
