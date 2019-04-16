@@ -152,7 +152,7 @@ d = random.randint(0, len(walls)-1)
 while(one_set(S) != True):
     d = random.randint(0,len(walls)-1)
     hold = walls[d]
-    if find(S, hold[0]) == find(S, hold[1]):
+    if find(S, hold[0]) != find(S, hold[1]):
         walls.pop(d)
         union_c(S, hold[0], hold[1])
 '''
