@@ -156,8 +156,12 @@ while(one_set(S) != True):
         walls.pop(d)
         union_c(S, hold[0], hold[1])
 '''
-for i in range(len(walls)//2): #Remove 1/2 of the walls 
+while(one_set(S) != True):
     d = random.randint(0,len(walls)-1)
-    walls.pop(d)
+    hold = walls[d]
+    if find(S, hold[0]) != find(S, hold[1]):
+        walls.pop(d)
+        union_c(S, hold[0], hold[1])
 '''
+
 draw_maze(walls,maze_rows,maze_cols) 
